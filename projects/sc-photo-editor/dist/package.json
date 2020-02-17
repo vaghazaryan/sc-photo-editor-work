@@ -1,0 +1,25 @@
+{
+  "name": "sc-photo-editor",
+  "version": "0.0.1",
+  "dependencies": {
+    "fabric": "^3.4.0",
+    "tslib": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.1.0",
+    "@angular/core": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/fabric": "^3.4.0"
+  },
+  "main": "bundles/sc-photo-editor.umd.js",
+  "module": "fesm5/sc-photo-editor.js",
+  "es2015": "fesm2015/sc-photo-editor.js",
+  "esm5": "esm5/sc-photo-editor.js",
+  "esm2015": "esm2015/sc-photo-editor.js",
+  "fesm5": "fesm5/sc-photo-editor.js",
+  "fesm2015": "fesm2015/sc-photo-editor.js",
+  "typings": "sc-photo-editor.d.ts",
+  "metadata": "sc-photo-editor.metadata.json",
+  "sideEffects": false
+}

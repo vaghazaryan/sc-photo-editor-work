@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "sc-photo-editor": [
+        "dist/sc-photo-editor"
+      ],
+      "sc-photo-editor/*": [
+        "dist/sc-photo-editor/*"
+      ]
+    }
   }
 }

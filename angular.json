@@ -129,6 +129,41 @@
           }
         }
       }
+    },
+    "sc-photo-editor": {
+      "root": "projects/sc-photo-editor",
+      "sourceRoot": "projects/sc-photo-editor/src",
+      "projectType": "library",
+      "prefix": "",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/sc-photo-editor/tsconfig.lib.json",
+            "project": "projects/sc-photo-editor/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/sc-photo-editor/src/test.ts",
+            "tsConfig": "projects/sc-photo-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/sc-photo-editor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/sc-photo-editor/tsconfig.lib.json",
+              "projects/sc-photo-editor/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "sc-photo-editor-work"

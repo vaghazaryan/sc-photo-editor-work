@@ -1,0 +1,20 @@
+{
+  "name": "sc-photo-editor",
+  "version": "0.0.1",
+  "dependencies": {
+    "fabric": "^3.4.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.1.0",
+    "@angular/core": "^7.1.0"
+  },
+  "scripts": [],
+  "devDependencies": {
+    "@types/fabric": "^3.4.0"
+  },
+  "ngPackage": {
+    "whitelistedNonPeerDependencies": [
+      "fabric"
+    ]
+  }
+}
