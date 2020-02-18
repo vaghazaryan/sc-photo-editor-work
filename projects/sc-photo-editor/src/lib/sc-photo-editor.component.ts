@@ -114,6 +114,7 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
   switchToMode(mode: Mode): void {
     switch (mode) {
       case 'crop': {
+        this.resetBlurWorkspace()
         this.initCropper();
         break;
       }
@@ -251,8 +252,9 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
     };
   }
 
-  private getPixelRatio(): number {
-    return fabric['window'].devicePixelRatio || fabric['window'].webkitDevicePixelRatio;
+  private resetBlurWorkspace() {
+    this.canvas.remove(this.fCircle);
+    this.fCircle = null;
   }
 
   setScale(scale: number) {
@@ -308,6 +310,9 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
   }
 
   public processBlur() {
+    if (this.mode !== 'blur' && !this.fCircle) {
+      return;
+    }
     let fCanvas;
     const canvas = HelpersService.createCanvasElement('blur_canvas');
     fCanvas = new fabric.Canvas(canvas);
@@ -329,10 +334,10 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
           clipTo: (ctx) => this.setContextBlur(ctx, backgroundImage.width, backgroundImage.height)
         });
 
-        const filter = new fabric.Image.filters['Pixelate']({
-          // blur: this.blurLevel / 100
-          blocksize: 15
+        const filter = new fabric.Image.filters['Blur']({
+          blur: this.blurLevel / 100
         });
+
         blurredPartImage.filters.push(filter);
         blurredPartImage.applyFilters();
         fCanvas.add(blurredPartImage);
@@ -344,7 +349,7 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
 
   setContextBlur(ctx, w, h) {
     let canvasSource, csL, csT, csScale;
-    let blurCircleSource, bcsL, bcsW, bcsH, bcsT, bcsScale;
+    let blurCircleSource, bcsL, bcsW, bcsH, bcsT, bcsScaleX, bcsScaleY;
 
     canvasSource = this.canvasSource;
     csL = canvasSource.left;
@@ -357,14 +362,30 @@ export class ScPhotoEditorComponent implements AfterViewInit, OnChanges {
 
     bcsW = blurCircleSource['width'];
     bcsH = blurCircleSource['height'];
-    bcsScale = blurCircleSource.scaleX;
+    bcsScaleX = blurCircleSource.scaleX;
+    bcsScaleY = blurCircleSource.scaleY;
 
-    let x, y, radius;
-    radius =  blurCircleSource.radius / csScale * bcsScale;
+    // Circle
+    if (bcsScaleX === bcsScaleY) {
+      let x, y, radius;
+      radius =  blurCircleSource.radius / csScale * bcsScaleX;
 
-    x = ((w / 2) - w) - (csL / csScale) + (bcsL / csScale) + radius;
-    y = ((h / 2) - h) - (csT / csScale) + (bcsT / csScale) + radius;
+      x = ((w / 2) - w) - (csL / csScale) + (bcsL / csScale) + radius;
+      y = ((h / 2) - h) - (csT / csScale) + (bcsT / csScale) + radius;
 
-    ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+      ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+    } else {
+
+      let x1, x2, y1, y2, radiusX, radiusY;
+      radiusX =  blurCircleSource.radius / csScale * bcsScaleX;
+      radiusY =  blurCircleSource.radius / csScale * bcsScaleY;
+
+      x1 = ((w / 2) - w) - (csL / csScale) + (bcsL / csScale) + radiusX;
+      y1 = ((h / 2) - h) - (csT / csScale) + (bcsT / csScale) + radiusY;
+      x2 = bcsW * bcsScaleX;
+      y2 = bcsH * bcsScaleY;
+
+      ctx.ellipse(x1, y1,  x2, y2, blurCircleSource.angle * Math.PI / 180, 0, this.PI2);
+    }
   }
 }

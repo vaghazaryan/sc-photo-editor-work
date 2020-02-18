@@ -4,9 +4,10 @@
     [aspectRatio]="3 / 4"
     [editorWidth]="300"
     [exportWidth]="400"
-    [mode]="'crop'"
+    [mode]="mode"
     (changed)="source = $event"
   ></sc-photo-editor>
-
   <img [src]="source" alt="">
 </div>
+<button (click)="changMode()">Change Mode</button>
+

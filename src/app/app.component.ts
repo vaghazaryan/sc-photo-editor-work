@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'sc-photo-editor-work';
+  mode = 'crop';
   source = '';
+
+  changMode() {
+    this.mode = this.mode === 'crop' ? 'blur' : 'crop';
+  }
 }
