@@ -1,13 +1,33 @@
 <div style="display: flex">
+
+
   <sc-photo-editor
-    [source]="'../assets/landscape.jpg'"
-    [aspectRatio]="3 / 4"
+    #scPhotoEditor
+    [source]="'../assets/square-1.jpg'"
+    [aspectRatio]="aspect"
     [editorWidth]="300"
-    [exportWidth]="400"
+    [exportWidth]="300"
     [mode]="mode"
-    (changed)="source = $event"
-  ></sc-photo-editor>
-  <img [src]="source" alt="">
+    (changed)="changed($event)">
+  </sc-photo-editor>
+
+
+  <div>
+    <img [src]="source" alt="">
+  </div>
 </div>
+
+<input
+  [step]="0.0001"
+  (change)="scale($event)"
+  [value]="scPhotoEditor.scaleLevel"
+  [min]="scPhotoEditor.minScaleLevel"
+  [max]="scPhotoEditor.maxScaleLevel" type="range">
+
+<button (click)="applyBlur()" *ngIf="mode === 'blur'">Blur</button>
 <button (click)="changMode()">Change Mode</button>
+<button (click)="rotateLeft()"> < </button>
+<button (click)="rotateRight()"> > </button>
+
+<button (click)="aspect = 16 / 9">16 / 9</button>
 
